@@ -11,10 +11,8 @@ import { CardContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import Login from "./Login";
-import Register from "./Register";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
@@ -128,67 +126,65 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <CurrentUserContext.Provider value={currentUser}>
-        <div className="page__container">
-          <Header />
-          <hr className="hrz-ruler" />
-          <Switch>
-            <ProtectedRoute exact path="/" loggedIn={loggedIn}>
-              <CardContext.Provider value={cards}>
-                <Main
-                  onEditProfileClick={handleEditProfileClick}
-                  onAddPlaceClick={handleAddPlaceClick}
-                  onEditAvatarClick={handleEditAvatarClick}
-                  onCardClick={handleCardClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                  isProfileLoading={loadingProfile}
-                  isCardsLoading={loadingCards}
-                />
-                <Footer />
-                <EditProfilePopup
-                  isOpen={isEditProfilePopupOpen}
-                  isLoading={isBtnLoading}
-                  onClose={closeAllPopups}
-                  onUpdateUser={handleUpdateUser}
-                  onBtnClick={handleBtnClick}
-                />
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page__container">
+        <Header />
+        <hr className="hrz-ruler" />
+        <Outlet />
+        <Routes>
+          <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
+            <Route
+              path="/"
+              element={
+                <CardContext.Provider value={cards}>
+                  <Main
+                    onEditProfileClick={handleEditProfileClick}
+                    onAddPlaceClick={handleAddPlaceClick}
+                    onEditAvatarClick={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                    isProfileLoading={loadingProfile}
+                    isCardsLoading={loadingCards}
+                  />
+                  <Footer />
+                  <EditProfilePopup
+                    isOpen={isEditProfilePopupOpen}
+                    isLoading={isBtnLoading}
+                    onClose={closeAllPopups}
+                    onUpdateUser={handleUpdateUser}
+                    onBtnClick={handleBtnClick}
+                  />
 
-                <AddPlacePopup
-                  onClose={closeAllPopups}
-                  onAddPlaceSubmit={handleAddPlaceSubmit}
-                  onBtnClick={handleBtnClick}
-                  isOpen={isAddPlacePopupOpen}
-                  isLoading={isBtnLoading}
-                />
+                  <AddPlacePopup
+                    onClose={closeAllPopups}
+                    onAddPlaceSubmit={handleAddPlaceSubmit}
+                    onBtnClick={handleBtnClick}
+                    isOpen={isAddPlacePopupOpen}
+                    isLoading={isBtnLoading}
+                  />
 
-                <EditAvatarPopup
-                  isOpen={isEditAvatarPopupOpen}
-                  isLoading={isBtnLoading}
-                  onClose={closeAllPopups}
-                  onUpdateAvatar={handleUpdateAvatar}
-                  onBtnClick={handleBtnClick}
-                  {...form.changeAvatar.input}
-                />
+                  <EditAvatarPopup
+                    isOpen={isEditAvatarPopupOpen}
+                    isLoading={isBtnLoading}
+                    onClose={closeAllPopups}
+                    onUpdateAvatar={handleUpdateAvatar}
+                    onBtnClick={handleBtnClick}
+                    {...form.changeAvatar.input}
+                  />
 
-                {/* Delete Alert Modal */}
-                <PopupWithForm {...form.deleteAlert} />
+                  {/* Delete Alert Modal */}
+                  <PopupWithForm {...form.deleteAlert} />
 
-                {/* Modal to Show Big Image */}
-                <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-              </CardContext.Provider>
-            </ProtectedRoute>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-          </Switch>
-        </div>
-      </CurrentUserContext.Provider>
-    </BrowserRouter>
+                  {/* Modal to Show Big Image */}
+                  <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+                </CardContext.Provider>
+              }
+            />
+          </Route>
+        </Routes>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
