@@ -1,0 +1,23 @@
+.login {
+  text-align: center;
+}
+
+.form {
+  display: grid;
+}
+
+.form__item {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.form__title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: normal;
+}
+
+.login__form {
+}

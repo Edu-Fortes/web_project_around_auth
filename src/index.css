@@ -88,3 +88,6 @@
 @import url("./blocks/popup/_opened/popup_opened.css");
 @import url("./blocks/popup/__error/popup__error_visible.css");
 @import url("./blocks/input-error/input-error.css");
+
+/* TESTE....REMOVER NA HORA DE ENVIAR PROJETO */
+@import url("./blocks/login/login.css");
