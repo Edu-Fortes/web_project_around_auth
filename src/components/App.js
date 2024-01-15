@@ -24,7 +24,7 @@ function App() {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingCards, setLoadingCards] = useState(true);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   useEffect(() => {
     //fetch user data from server
@@ -127,7 +127,7 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="page__container">
+      <>
         <Header />
         <hr className="hrz-ruler" />
         <Outlet />
@@ -183,7 +183,7 @@ function App() {
             />
           </Route>
         </Routes>
-      </div>
+      </>
     </CurrentUserContext.Provider>
   );
 }
