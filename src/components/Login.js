@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
-    <main className="login">
-      <div className="login__container">
+    <main className="auth">
+      <div className="auth__container">
         <form className="form">
           <fieldset className="form__item">
             <label className="form__title">Entrar</label>
@@ -27,7 +27,7 @@ export default function Login() {
           </fieldset>
         </form>
 
-        <Link to="/register" className="login__footer">
+        <Link to="/register" className="auth__footer">
           Ainda não é membro? Inscreva-se aqui!
         </Link>
       </div>
