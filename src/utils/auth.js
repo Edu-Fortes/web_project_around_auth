@@ -8,7 +8,17 @@ const signup = ({ email, password }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  });
+  })
+    .then((res) => {
+      try {
+        if (res.status === 201) {
+          return res.json();
+        }
+      } catch (e) {
+        return e;
+      }
+    })
+    .catch((err) => console.log(err));
 };
 
 const signin = ({ email, password }) => {
@@ -34,3 +44,7 @@ const checkToken = (token) => {
 };
 
 export { BASE_URL, signup, signin, checkToken };
+
+// .then((data) => {
+//   localStorage.setItem("token", data.token);
+// })
