@@ -139,9 +139,9 @@ function App() {
   }
 
   async function handleCheckToken() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("jwt");
 
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("jwt")) {
       try {
         const res = await auth.checkToken(token);
         console.log(res);

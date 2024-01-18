@@ -10,13 +10,12 @@ const signup = ({ email, password }) => {
     body: JSON.stringify({ email, password }),
   })
     .then((res) => {
-      try {
-        if (res.status === 201) {
-          return res.json();
-        }
-      } catch (e) {
-        return e;
+      if (res.status === 201) {
+        return res.json();
       }
+    })
+    .then((res) => {
+      return res;
     })
     .catch((err) => console.log("Error message:", err));
 };
@@ -31,12 +30,14 @@ const signin = ({ email, password }) => {
     body: JSON.stringify({ email, password }),
   })
     .then((res) => {
-      try {
-        if (res.status === 200) {
-          return res.json();
-        }
-      } catch (e) {
-        return e;
+      if (res.status === 200) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      if (data) {
+        localStorage.setItem("jwt", data.token);
+        return data;
       }
     })
     .catch((err) => console.log("Error message:", err));
@@ -50,7 +51,9 @@ const checkToken = (token) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  });
+  })
+    .then((res) => res.json())
+    .then((data) => data);
 };
 
 export { BASE_URL, signup, signin, checkToken };

@@ -14,7 +14,7 @@ export default function Login({ handleLogin }) {
     }
     try {
       const res = await auth.signin({ email, password });
-      localStorage.setItem("token", res.token);
+      if(res.tokenconsole.log(res);
       handleLogin();
       navigate("/");
     } catch (error) {
