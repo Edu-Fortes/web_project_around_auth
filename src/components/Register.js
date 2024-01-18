@@ -59,7 +59,7 @@ export default function Register() {
           </fieldset>
         </form>
 
-        <Link to="/login" className="auth__footer">
+        <Link to="/signin" className="auth__footer">
           Já é um membro? Faça o login aqui!
         </Link>
       </div>

@@ -27,7 +27,7 @@ export default function Login() {
           </fieldset>
         </form>
 
-        <Link to="/register" className="auth__footer">
+        <Link to="/signup" className="auth__footer">
           Ainda não é membro? Inscreva-se aqui!
         </Link>
       </div>

@@ -14,11 +14,11 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "login", //alterar para o nome correto no checklist
+        path: "signin", //page to login
         element: <Login />,
       },
       {
-        path: "register", //alterar para o nome correto no checklist
+        path: "signup", //page to register
         element: <Register />,
       },
     ],
