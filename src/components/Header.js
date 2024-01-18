@@ -1,6 +1,6 @@
 import logo from "../images/svg/svg_logo.svg";
 
-export default function Header() {
+export default function Header({ children }) {
   return (
     <header className="header">
       <figure className="header__fig">
@@ -10,6 +10,7 @@ export default function Header() {
           Afora"
         />
       </figure>
+      {children}
     </header>
   );
 }

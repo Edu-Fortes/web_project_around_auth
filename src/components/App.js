@@ -15,6 +15,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import Register from "./Register";
+import Navbar from "./Navbar";
 import * as auth from "../utils/auth";
 
 function App() {
@@ -156,7 +157,9 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
-        <Header />
+        <Header>
+          <Navbar />
+        </Header>
         <hr className="hrz-ruler" />
         <Routes>
           <Route element={<Login handleLogin={handleLogin} />} path="/signin" />
