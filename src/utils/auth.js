@@ -57,7 +57,3 @@ const checkToken = (token) => {
 };
 
 export { BASE_URL, signup, signin, checkToken };
-
-// .then((data) => {
-//   localStorage.setItem("token", data.token);
-// })

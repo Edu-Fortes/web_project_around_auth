@@ -11,7 +11,7 @@ import { CardContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import Register from "./Register";
@@ -28,6 +28,7 @@ function App() {
   const [loadingCards, setLoadingCards] = useState(true);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     //fetch user data from server
@@ -144,7 +145,8 @@ function App() {
     if (localStorage.getItem("jwt")) {
       try {
         const res = await auth.checkToken(token);
-        console.log(res);
+        setLoggedIn(true);
+        navigate("/");
       } catch (error) {
         console.log("Error cheking JWT:", error);
       }
@@ -157,7 +159,7 @@ function App() {
         <Header />
         <hr className="hrz-ruler" />
         <Routes>
-          <Route element={<Login />} path="/signin" handleLogin={handleLogin} />
+          <Route element={<Login handleLogin={handleLogin} />} path="/signin" />
           <Route element={<Register />} path="/signup" />
           <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
             <Route

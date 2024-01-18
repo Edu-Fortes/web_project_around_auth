@@ -14,9 +14,11 @@ export default function Login({ handleLogin }) {
     }
     try {
       const res = await auth.signin({ email, password });
-      if(res.tokenconsole.log(res);
-      handleLogin();
-      navigate("/");
+      if (res.token) {
+        handleLogin();
+        navigate("/");
+        console.log(res);
+      }
     } catch (error) {
       console.log("Error to login:", error);
     }
