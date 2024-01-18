@@ -12,7 +12,7 @@ export default function Register() {
     try {
       const res = await auth.signup({ email, password });
       if (res) {
-        navigate("/login");
+        navigate("/signin");
       }
     } catch (err) {
       console.log("Error message:", err);

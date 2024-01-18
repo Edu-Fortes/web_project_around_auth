@@ -13,6 +13,9 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { Outlet, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import Login from "./Login";
+import Register from "./Register";
+import * as auth from "../utils/auth";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
@@ -44,6 +47,8 @@ function App() {
       .catch((err) => console.log(err))
 
       .finally(() => setLoadingCards(false));
+
+    handleCheckToken();
   }, []);
 
   function handleEditAvatarClick() {
@@ -125,13 +130,35 @@ function App() {
       .finally(() => setIsBtnLoading(false));
   }
 
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
+  function handleLogout() {
+    setLoggedIn(false);
+  }
+
+  async function handleCheckToken() {
+    const token = localStorage.getItem("token");
+
+    if (localStorage.getItem("token")) {
+      try {
+        const res = await auth.checkToken(token);
+        console.log(res);
+      } catch (error) {
+        console.log("Error cheking JWT:", error);
+      }
+    }
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
         <Header />
         <hr className="hrz-ruler" />
-        <Outlet />
         <Routes>
+          <Route element={<Login />} path="/signin" handleLogin={handleLogin} />
+          <Route element={<Register />} path="/signup" />
           <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
             <Route
               path="/"

@@ -18,7 +18,7 @@ const signup = ({ email, password }) => {
         return e;
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log("Error message:", err));
 };
 
 const signin = ({ email, password }) => {
@@ -29,7 +29,17 @@ const signin = ({ email, password }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  });
+  })
+    .then((res) => {
+      try {
+        if (res.status === 200) {
+          return res.json();
+        }
+      } catch (e) {
+        return e;
+      }
+    })
+    .catch((err) => console.log("Error message:", err));
 };
 
 const checkToken = (token) => {
