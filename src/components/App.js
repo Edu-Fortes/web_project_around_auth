@@ -29,6 +29,7 @@ function App() {
   const [loadingCards, setLoadingCards] = useState(true);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [tokenData, setTokenData] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,8 +51,23 @@ function App() {
 
       .finally(() => setLoadingCards(false));
 
-    handleCheckToken();
-  }, []);
+    const token = localStorage.getItem("jwt");
+    auth
+      .checkToken(token)
+      .then((res) => {
+        if (res.email === undefined) {
+          return;
+        } else {
+          setTokenData(res.data.email);
+          setLoggedIn(true);
+          navigate("/");
+          console.log(res);
+        }
+      })
+      .catch((error) => {
+        console.log("Error checking JWT:", error);
+      });
+  }, [navigate]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -140,29 +156,41 @@ function App() {
     setLoggedIn(false);
   }
 
-  async function handleCheckToken() {
-    const token = localStorage.getItem("jwt");
-
-    if (localStorage.getItem("jwt")) {
-      try {
-        const res = await auth.checkToken(token);
-        setLoggedIn(true);
-        navigate("/");
-      } catch (error) {
-        console.log("Error cheking JWT:", error);
-      }
-    }
+  async function handleTokenData(tokenData) {
+    const res = await auth.checkToken(tokenData);
+    console.log("res do handleTokenData:", res.data);
+    setTokenData(await res.data.email);
   }
+  // async function handleCheckToken() {
+  //   const token = localStorage.getItem("jwt");
+
+  //   if (localStorage.getItem("jwt")) {
+  //     try {
+  //       const res = await auth.checkToken(token);
+  //       setTokenData(res.data.email);
+  //       setLoggedIn(true);
+  //       navigate("/");
+  //       console.log(res);
+  //     } catch (error) {
+  //       console.log("Error cheking JWT:", error);
+  //     }
+  //   }
+  // }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
         <Header>
-          <Navbar />
+          <Navbar tokenData={tokenData} logout={handleLogout} />
         </Header>
         <hr className="hrz-ruler" />
         <Routes>
-          <Route element={<Login handleLogin={handleLogin} />} path="/signin" />
+          <Route
+            element={
+              <Login handleLogin={handleLogin} tokenData={handleTokenData} />
+            }
+            path="/signin"
+          />
           <Route element={<Register />} path="/signup" />
           <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
             <Route

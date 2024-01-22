@@ -37,6 +37,7 @@ const signin = ({ email, password }) => {
     .then((data) => {
       if (data) {
         localStorage.setItem("jwt", data.token);
+        console.log(data);
         return data;
       }
     })

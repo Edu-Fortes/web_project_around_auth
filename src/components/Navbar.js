@@ -1,13 +1,22 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ handleLogout }) {
+export default function Navbar({ logout, tokenData }) {
   const navigate = useNavigate();
 
   function signout() {
-    handleLogout();
+    logout();
     localStorage.removeItem("jwt");
     navigate("/signin");
   }
 
-  return <nav>NavBar</nav>;
+  return (
+    <nav>
+      <ul>
+        <li>{tokenData}</li>
+        <li>
+          <button onClick={signout}>Sair</button>
+        </li>
+      </ul>
+    </nav>
+  );
 }
