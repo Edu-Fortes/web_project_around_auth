@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { form, urlPaths } from "../utils/constants";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardContext } from "../contexts/CardContext";
@@ -19,6 +19,7 @@ import Navbar from "./Navbar";
 import * as auth from "../utils/auth";
 import PageButton from "./PageButton";
 import InfoTooltip from "./InfoTooltip";
+import NavBurger from "./NavBurger";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
@@ -183,19 +184,56 @@ function App() {
     setIsRight(true);
   }
 
+  function useMediaQuery(string) {
+    const mediaQuery = useMemo(() => window.matchMedia(string), [string]);
+    const [match, setMatch] = useState(mediaQuery.matches);
+
+    useEffect(() => {
+      const onChange = () => setMatch(mediaQuery.matches);
+      mediaQuery.addEventListener("change", onChange);
+
+      return () => mediaQuery.removeEventListener("change", onChange);
+    }, [mediaQuery]);
+    return match;
+  }
+
+  function useMediaQueries() {
+    const lg = useMediaQuery("(min-width: 570px)");
+
+    return lg;
+  }
+
+  const largeScreen = useMediaQueries();
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
         <Header>
-          <Navbar
-            tokenData={tokenData}
-            logout={handleLogout}
-            removeTokenData={removeTokenData}
-            loggedIn={loggedIn}
-            pageButton={handlePageButton}
-          >
-            <PageButton pageButton={pageButton} />
-          </Navbar>
+          {loggedIn ? (
+            largeScreen ? (
+              <Navbar
+                tokenData={tokenData}
+                logout={handleLogout}
+                removeTokenData={removeTokenData}
+                loggedIn={loggedIn}
+                pageButton={handlePageButton}
+              >
+                <PageButton pageButton={pageButton} />
+              </Navbar>
+            ) : (
+              <NavBurger />
+            )
+          ) : (
+            <Navbar
+              tokenData={tokenData}
+              logout={handleLogout}
+              removeTokenData={removeTokenData}
+              loggedIn={loggedIn}
+              pageButton={handlePageButton}
+            >
+              <PageButton pageButton={pageButton} />
+            </Navbar>
+          )}
         </Header>
         <hr className="hrz-ruler" />
         <Routes>
