@@ -17,6 +17,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Navbar from "./Navbar";
 import * as auth from "../utils/auth";
+import PageButton from "./PageButton";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
@@ -30,6 +31,7 @@ function App() {
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [tokenData, setTokenData] = useState("");
+  const [pageButton, setPageButton] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +52,7 @@ function App() {
       .catch((err) => console.log(err))
 
       .finally(() => setLoadingCards(false));
-
+    //check if user is logged in
     async function handleCheckToken() {
       const token = localStorage.getItem("jwt");
       const res = await auth.checkToken(token);
@@ -166,6 +168,10 @@ function App() {
     setTokenData(await res.data.email);
   }
 
+  function handlePageButton(text) {
+    setPageButton(text);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
@@ -174,17 +180,28 @@ function App() {
             tokenData={tokenData}
             logout={handleLogout}
             removeTokenData={removeTokenData}
-          />
+            loggedIn={loggedIn}
+            pageButton={handlePageButton}
+          >
+            <PageButton pageButton={pageButton} />
+          </Navbar>
         </Header>
         <hr className="hrz-ruler" />
         <Routes>
           <Route
             element={
-              <Login handleLogin={handleLogin} tokenData={handleTokenData} />
+              <Login
+                handleLogin={handleLogin}
+                tokenData={handleTokenData}
+                pageButton={handlePageButton}
+              />
             }
             path="/signin"
           />
-          <Route element={<Register />} path="/signup" />
+          <Route
+            element={<Register pageButton={handlePageButton} />}
+            path="/signup"
+          />
           <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
             <Route
               path="/"

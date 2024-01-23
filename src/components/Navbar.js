@@ -1,21 +1,35 @@
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar({ logout, tokenData, removeTokenData }) {
+export default function Navbar({
+  logout,
+  tokenData,
+  removeTokenData,
+  loggedIn,
+  children,
+  pageButton,
+}) {
   const navigate = useNavigate();
 
   function signout() {
     logout();
+    pageButton(true);
     removeTokenData();
     localStorage.removeItem("jwt");
     navigate("/signin");
   }
 
   return (
-    <nav>
-      <ul>
-        <li>{tokenData}</li>
+    <nav className="navbar">
+      <ul className="navbar__item">
+        <li className="navbar__email">{tokenData}</li>
         <li>
-          <button onClick={signout}>Sair</button>
+          {loggedIn ? (
+            <button className="navbar__button" onClick={signout}>
+              Sair
+            </button>
+          ) : (
+            children
+          )}
         </li>
       </ul>
     </nav>

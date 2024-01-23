@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-export default function Login({ handleLogin, tokenData }) {
+export default function Login({ handleLogin, tokenData, pageButton }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  function changeButtontext() {
+    pageButton(false);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -63,7 +67,7 @@ export default function Login({ handleLogin, tokenData }) {
           </fieldset>
         </form>
 
-        <Link to="/signup" className="auth__footer">
+        <Link to="/signup" className="auth__footer" onClick={changeButtontext}>
           Ainda não é membro? Inscreva-se aqui!
         </Link>
       </div>

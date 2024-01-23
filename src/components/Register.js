@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-export default function Register() {
+export default function Register({ pageButton }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  function changeButtonText() {
+    pageButton(true);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -59,7 +63,7 @@ export default function Register() {
           </fieldset>
         </form>
 
-        <Link to="/signin" className="auth__footer">
+        <Link to="/signin" className="auth__footer" onClick={changeButtonText}>
           Já é um membro? Faça o login aqui!
         </Link>
       </div>
