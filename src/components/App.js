@@ -51,23 +51,23 @@ function App() {
 
       .finally(() => setLoadingCards(false));
 
-    handleCheckToken();
-  }, []);
-
-  async function handleCheckToken() {
-    const token = localStorage.getItem("jwt");
-    const res = await auth.checkToken(token);
-    try {
-      if (res === undefined) {
-        return;
+    async function handleCheckToken() {
+      const token = localStorage.getItem("jwt");
+      const res = await auth.checkToken(token);
+      try {
+        if (res === undefined) {
+          return;
+        }
+        setTokenData(res.data.email);
+        setLoggedIn(true);
+        navigate("/");
+      } catch (err) {
+        console.log(err);
       }
-      setTokenData(res.data.email);
-      setLoggedIn(true);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
     }
-  }
+
+    handleCheckToken();
+  }, [navigate]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
