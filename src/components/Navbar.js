@@ -21,7 +21,7 @@ export default function Navbar({
   return (
     <nav className="navbar">
       <ul className="navbar__item">
-        <li className="navbar__email">{tokenData}</li>
+        <li className="navbar__email">{loggedIn ? tokenData : ""}</li>
         <li>
           {loggedIn ? (
             <button className="navbar__button" onClick={signout}>

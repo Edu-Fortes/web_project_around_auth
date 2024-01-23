@@ -18,11 +18,13 @@ import Register from "./Register";
 import Navbar from "./Navbar";
 import * as auth from "../utils/auth";
 import PageButton from "./PageButton";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState();
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState();
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState();
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -32,6 +34,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [tokenData, setTokenData] = useState("");
   const [pageButton, setPageButton] = useState(true);
+  const [isRight, setIsRight] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,12 +89,16 @@ function App() {
   function handleBtnClick() {
     setIsBtnLoading(true);
   }
+  function handleInfoTooltip() {
+    setIsInfoTooltipOpen(!isInfoTooltipOpen);
+  }
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(false);
+    setIsInfoTooltipOpen(false);
   }
 
   function handleCardLike(card) {
@@ -150,12 +157,13 @@ function App() {
       .finally(() => setIsBtnLoading(false));
   }
 
-  function handleLogin() {
+  function handleLoggin() {
     setLoggedIn(true);
   }
 
   function handleLogout() {
     setLoggedIn(false);
+    setIsRight(false);
   }
 
   function removeTokenData() {
@@ -164,12 +172,15 @@ function App() {
 
   async function handleTokenData(tokenData) {
     const res = await auth.checkToken(tokenData);
-    // console.log("res do handleTokenData:", res.data);
     setTokenData(await res.data.email);
   }
 
   function handlePageButton(text) {
     setPageButton(text);
+  }
+
+  function handleIsRight() {
+    setIsRight(true);
   }
 
   return (
@@ -190,16 +201,33 @@ function App() {
         <Routes>
           <Route
             element={
-              <Login
-                handleLogin={handleLogin}
-                tokenData={handleTokenData}
-                pageButton={handlePageButton}
-              />
+              <>
+                <Login
+                  tokenData={handleTokenData}
+                  pageButton={handlePageButton}
+                  openAlert={handleInfoTooltip}
+                  changeIsRight={handleIsRight}
+                />
+                <InfoTooltip
+                  isOpen={isInfoTooltipOpen}
+                  onClose={closeAllPopups}
+                  isRight={isRight}
+                  handleLoggin={handleLoggin}
+                />
+              </>
             }
             path="/signin"
           />
           <Route
-            element={<Register pageButton={handlePageButton} />}
+            element={
+              <>
+                <Register pageButton={handlePageButton} />
+                <InfoTooltip
+                  isOpen={handleInfoTooltip}
+                  onClose={closeAllPopups}
+                />
+              </>
+            }
             path="/signup"
           />
           <Route element={<ProtectedRoute loggedIn={loggedIn} />}>

@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-export default function Login({ handleLogin, tokenData, pageButton }) {
+export default function Login({
+  tokenData,
+  pageButton,
+  openAlert,
+  changeIsRight,
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   function changeButtontext() {
     pageButton(false);
@@ -19,10 +23,11 @@ export default function Login({ handleLogin, tokenData, pageButton }) {
     try {
       const res = await auth.signin({ email, password });
       if (res === undefined) {
+        openAlert();
         return;
       }
-      handleLogin();
-      navigate("/");
+      changeIsRight();
+      openAlert();
       tokenData(res.token);
     } catch (error) {
       console.log("Error to login:", error);
