@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-export default function Register({ pageButton }) {
+export default function Register({ pageButton, openAlert, isRight }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   function changeButtonText() {
     pageButton(true);
@@ -16,7 +15,8 @@ export default function Register({ pageButton }) {
     try {
       const res = await auth.signup({ email, password });
       if (res) {
-        navigate("/signin");
+        isRight();
+        openAlert();
       }
     } catch (err) {
       console.log("Error message:", err);

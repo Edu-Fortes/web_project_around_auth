@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../utils/auth";
 
 export default function Login({
   tokenData,
   pageButton,
   openAlert,
-  changeIsRight,
+  handleLoggin,
 }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function changeButtontext() {
     pageButton(false);
@@ -26,9 +27,9 @@ export default function Login({
         openAlert();
         return;
       }
-      changeIsRight();
-      openAlert();
+      handleLoggin();
       tokenData(res.token);
+      navigate("/");
     } catch (error) {
       console.log("Error to login:", error);
     }

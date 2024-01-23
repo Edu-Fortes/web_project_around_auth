@@ -206,13 +206,12 @@ function App() {
                   tokenData={handleTokenData}
                   pageButton={handlePageButton}
                   openAlert={handleInfoTooltip}
-                  changeIsRight={handleIsRight}
+                  handleLoggin={handleLoggin}
                 />
                 <InfoTooltip
                   isOpen={isInfoTooltipOpen}
                   onClose={closeAllPopups}
                   isRight={isRight}
-                  handleLoggin={handleLoggin}
                 />
               </>
             }
@@ -221,10 +220,15 @@ function App() {
           <Route
             element={
               <>
-                <Register pageButton={handlePageButton} />
+                <Register
+                  pageButton={handlePageButton}
+                  openAlert={handleInfoTooltip}
+                  isRight={handleIsRight}
+                />
                 <InfoTooltip
-                  isOpen={handleInfoTooltip}
+                  isOpen={isInfoTooltipOpen}
                   onClose={closeAllPopups}
+                  isRight={isRight}
                 />
               </>
             }
