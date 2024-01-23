@@ -10,6 +10,11 @@ const signup = ({ email, password }) => {
     body: JSON.stringify({ email, password }),
   })
     .then((res) => {
+      if (res.status === 4000) {
+        console.log({
+          message: "Some thing went wrong. Verify one of the fields.",
+        });
+      }
       if (res.status === 201) {
         return res.json();
       }
@@ -30,6 +35,16 @@ const signin = ({ email, password }) => {
     body: JSON.stringify({ email, password }),
   })
     .then((res) => {
+      if (res.status === 401) {
+        console.log({
+          message:
+            "User not found. Make sure your e-mail and password is correct",
+        });
+      }
+      if (res.status === 400) {
+        console.log({ message: "One or more field not provided" });
+        return;
+      }
       if (res.status === 200) {
         return res.json();
       }
@@ -37,7 +52,6 @@ const signin = ({ email, password }) => {
     .then((data) => {
       if (data) {
         localStorage.setItem("jwt", data.token);
-        console.log(data);
         return data;
       }
     })
@@ -53,8 +67,17 @@ const checkToken = (token) => {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => res.json())
-    .then((data) => data);
+    .then((res) => {
+      if (res.status === 401) {
+        console.log({ message: "User not found. Make sure you are logged in" });
+        return;
+      }
+      return res.json();
+    })
+    .then((data) => data)
+    .catch((error) => {
+      console.log("Error checking JWT:", error);
+    });
 };
 
 export { BASE_URL, signup, signin, checkToken };

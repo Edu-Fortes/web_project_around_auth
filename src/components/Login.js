@@ -14,12 +14,12 @@ export default function Login({ handleLogin, tokenData }) {
     }
     try {
       const res = await auth.signin({ email, password });
-      if (res.token) {
-        handleLogin();
-        navigate("/");
-        tokenData(res.token);
-        console.log(res);
+      if (res === undefined) {
+        return;
       }
+      handleLogin();
+      navigate("/");
+      tokenData(res.token);
     } catch (error) {
       console.log("Error to login:", error);
     }

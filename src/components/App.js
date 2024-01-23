@@ -29,7 +29,7 @@ function App() {
   const [loadingCards, setLoadingCards] = useState(true);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [tokenData, setTokenData] = useState();
+  const [tokenData, setTokenData] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,23 +51,23 @@ function App() {
 
       .finally(() => setLoadingCards(false));
 
+    handleCheckToken();
+  }, []);
+
+  async function handleCheckToken() {
     const token = localStorage.getItem("jwt");
-    auth
-      .checkToken(token)
-      .then((res) => {
-        if (res.email === undefined) {
-          return;
-        } else {
-          setTokenData(res.data.email);
-          setLoggedIn(true);
-          navigate("/");
-          console.log(res);
-        }
-      })
-      .catch((error) => {
-        console.log("Error checking JWT:", error);
-      });
-  }, [navigate]);
+    const res = await auth.checkToken(token);
+    try {
+      if (res === undefined) {
+        return;
+      }
+      setTokenData(res.data.email);
+      setLoggedIn(true);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -156,32 +156,25 @@ function App() {
     setLoggedIn(false);
   }
 
+  function removeTokenData() {
+    setTokenData("");
+  }
+
   async function handleTokenData(tokenData) {
     const res = await auth.checkToken(tokenData);
-    console.log("res do handleTokenData:", res.data);
+    // console.log("res do handleTokenData:", res.data);
     setTokenData(await res.data.email);
   }
-  // async function handleCheckToken() {
-  //   const token = localStorage.getItem("jwt");
-
-  //   if (localStorage.getItem("jwt")) {
-  //     try {
-  //       const res = await auth.checkToken(token);
-  //       setTokenData(res.data.email);
-  //       setLoggedIn(true);
-  //       navigate("/");
-  //       console.log(res);
-  //     } catch (error) {
-  //       console.log("Error cheking JWT:", error);
-  //     }
-  //   }
-  // }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
         <Header>
-          <Navbar tokenData={tokenData} logout={handleLogout} />
+          <Navbar
+            tokenData={tokenData}
+            logout={handleLogout}
+            removeTokenData={removeTokenData}
+          />
         </Header>
         <hr className="hrz-ruler" />
         <Routes>
