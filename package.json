@@ -42,5 +42,5 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "gh-pages": "^5.0.0"
   },
-  "homepage": "."
+  "homepage": "https://edu-fortes.github.io/web_project_around_auth/"
 }
