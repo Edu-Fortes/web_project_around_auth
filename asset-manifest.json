@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/web_project_around_auth/static/css/main.ba2f6747.css",
-    "main.js": "/web_project_around_auth/static/js/main.799ad196.js",
+    "main.js": "/web_project_around_auth/static/js/main.3a77bf05.js",
     "static/media/Inter-Medium.woff?v=3.19": "/web_project_around_auth/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff?v=3.19": "/web_project_around_auth/static/media/Inter-Black.c6938660eec019fefd68.woff",
     "static/media/Inter-Regular.woff?v=3.19": "/web_project_around_auth/static/media/Inter-Regular.8c206db99195777c6769.woff",
@@ -17,10 +17,10 @@
     "static/media/svg_pencil.svg": "/web_project_around_auth/static/media/svg_pencil.6c7bf05444b9793fdf6e73a2dd202e7e.svg",
     "static/media/svg_plus.svg": "/web_project_around_auth/static/media/svg_plus.bed8c136e13907f5eefb86d62a5fe29e.svg",
     "main.ba2f6747.css.map": "/web_project_around_auth/static/css/main.ba2f6747.css.map",
-    "main.799ad196.js.map": "/web_project_around_auth/static/js/main.799ad196.js.map"
+    "main.3a77bf05.js.map": "/web_project_around_auth/static/js/main.3a77bf05.js.map"
   },
   "entrypoints": [
     "static/css/main.ba2f6747.css",
-    "static/js/main.799ad196.js"
+    "static/js/main.3a77bf05.js"
   ]
 }
