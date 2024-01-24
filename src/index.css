@@ -42,6 +42,9 @@
 @import url("./blocks/navbar/__item/navbar__item.css");
 @import url("./blocks/navbar/__email/navbar__email.css");
 @import url("./blocks/navbar/__button/navbar__button.css");
+@import url("./blocks/navburger/__item/navburger__item.css");
+@import url("./blocks/navburger/__email/navburger__email.css");
+@import url("./blocks/navburger/__button/navburger__button.css");
 
 @import url("./blocks/form/__item/form__item.css");
 @import url("./blocks/form/__title/form__title.css");
