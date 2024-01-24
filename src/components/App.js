@@ -19,6 +19,7 @@ import Navbar from "./Navbar";
 import * as auth from "../utils/auth";
 import PageButton from "./PageButton";
 import InfoTooltip from "./InfoTooltip";
+import NavBurgerButton from "./NavBurgerButton";
 import NavBurger from "./NavBurger";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
   const [tokenData, setTokenData] = useState("");
   const [pageButton, setPageButton] = useState(true);
   const [isRight, setIsRight] = useState(false);
+  const [isNavburgerOpen, setIsNavburgerOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -205,9 +207,26 @@ function App() {
 
   const largeScreen = useMediaQueries();
 
+  function handleNavburgerOpen() {
+    setIsNavburgerOpen(!isNavburgerOpen);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
+        {isNavburgerOpen ? (
+          <NavBurger
+            tokenData={tokenData}
+            logout={handleLogout}
+            removeTokenData={removeTokenData}
+            loggedIn={loggedIn}
+            pageButton={handlePageButton}
+          >
+            <PageButton pageButton={pageButton} />
+          </NavBurger>
+        ) : (
+          <div></div>
+        )}
         <Header>
           {loggedIn ? (
             largeScreen ? (
@@ -221,7 +240,7 @@ function App() {
                 <PageButton pageButton={pageButton} />
               </Navbar>
             ) : (
-              <NavBurger />
+              <NavBurgerButton navBurgerOpen={handleNavburgerOpen} />
             )
           ) : (
             <Navbar

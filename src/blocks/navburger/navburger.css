@@ -1,0 +1,9 @@
+.navburger {
+  display: flex;
+  flex-direction: column;
+}
+
+.navburger__item {
+  display: inherit;
+  flex-direction: column;
+}
