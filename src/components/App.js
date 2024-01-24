@@ -102,6 +102,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(false);
     setIsInfoTooltipOpen(false);
+    setIsNavburgerOpen(false);
   }
 
   function handleCardLike(card) {
@@ -221,6 +222,7 @@ function App() {
             removeTokenData={removeTokenData}
             loggedIn={loggedIn}
             pageButton={handlePageButton}
+            closeNavburger={closeAllPopups}
           >
             <PageButton pageButton={pageButton} />
           </NavBurger>

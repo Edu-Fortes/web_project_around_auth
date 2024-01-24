@@ -6,12 +6,14 @@ export default function NavBurger({
   tokenData,
   pageButton,
   removeTokenData,
+  closeNavburger,
   children,
 }) {
   const navigate = useNavigate();
 
   function signout() {
     logout();
+    closeNavburger();
     pageButton(true);
     removeTokenData();
     localStorage.removeItem("jwt");
@@ -21,10 +23,10 @@ export default function NavBurger({
   return (
     <nav className="navburger">
       <ul className="navburger__item">
-        <li className="navbar__email">{loggedIn ? tokenData : ""}</li>
+        <li className="navburger__email">{loggedIn ? tokenData : ""}</li>
         <li>
           {loggedIn ? (
-            <button className="navbar__button" onClick={signout}>
+            <button className="navburger__button" onClick={signout}>
               Sair
             </button>
           ) : (
